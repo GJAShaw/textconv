@@ -4,6 +4,8 @@
 # project: N/A - generic C project .gitignore
 # ------------------------------------------------------------------------------
 
+# stuff I just don't want to track
+/untracked/
 
 # Prerequisites
 *.d
