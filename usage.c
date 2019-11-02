@@ -11,8 +11,8 @@
 void print_usage(char *path){
 
 	char *name = basename(path);
-	printf("%s%s%s\n", "---- ", name, " ----");
-	puts("Work in progress. Usage info will go here");
+	fprintf(stderr, "%s%s%s\n", "---- ", name, " ----");
+	fprintf(stderr, "Work in progress. Usage info will go here");
 	return;
 
 }
