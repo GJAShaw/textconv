@@ -8,7 +8,8 @@
 #include <libgen.h>
 #include <stdio.h>
 
-void print_usage(char *path){
+void print_usage(char *path)
+{
 
 	char *name = basename(path);
 	fprintf(stderr, "%s%s%s\n", "---- ", name, " ----");
