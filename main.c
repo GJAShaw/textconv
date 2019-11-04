@@ -9,14 +9,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "dldrec.h"
 #include "textconv.defs.h"
+#include "dldrec.h"
 #include "getargs.h"
+#include "printrec.h"
 
 int main(int argc, char **argv)
 {
 	struct args_def args;
-	char record_read[DLDREC_LENGTH];
+	char record_read[ARRAY_SIZE];
 	FILE *in_file = NULL;
 	bool finished = false;
 
@@ -29,8 +30,8 @@ int main(int argc, char **argv)
 	}
 
 	while (!finished) {
-		if (fgets(record_read, DLDREC_LENGTH, in_file) != NULL ) {
-			printf("%s", record_read);
+		if (fgets(record_read, ARRAY_SIZE, in_file) != NULL ) {
+			print_record(record_read);
 		} else {
 			finished = true;
 		} // TODO - make this stub into a proper record-processor
