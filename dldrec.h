@@ -10,49 +10,38 @@
 
 #include <stddef.h>
 
-enum dldrec_sizeofs{DLDREC_LENGTH = 42};
+struct dld_record_header_def {
+	unsigned char num[4];
+	unsigned char typ;
+	char filler_01;
+};
 
-struct dldrec {
+struct dld_header_data_def {
+	unsigned char yyyy[4];
+	unsigned char mm[2];
+	unsigned char dd[2];
+	unsigned char nn[2];
+};
 
+struct dld_data_data_def {
+	unsigned char name[16];
+	unsigned char colour[16];
+	unsigned char age[2];
+};
+
+struct dld_trailer_data_def {
+	unsigned char recs_count[8];
+};
+
+struct dld_rec {
+
+	struct dld_record_header_def header;
 	union {
+		struct dld_header_data_def header;
+		struct dld_data_data_def data;
+		struct dld_trailer_data_def trailer;
+	} data_u;
 
-		char bytes[DLDREC_LENGTH]; // unstructured bytes
-		struct {
-
-			// record header - 6 bytes
-			struct {
-				unsigned char rec_num[4];
-				unsigned char rec_typ;
-				char filler_01;
-			} rec_header;
-
-			// record body: up to 34 bytes
-			union {
-				struct { // 10 bytes
-					unsigned char yyyy[4];
-					unsigned char mm[2];
-					unsigned char dd[2];
-					unsigned char nn[2];
-				} header_rec_body;
-
-				struct { // 34 bytes
-					unsigned char name[16];
-					unsigned char colour[16];
-					unsigned char age[2];
-				} data_rec_body;
-
-				struct { // 8 bytes
-					unsigned char recs_count[8];
-				} trailer_rec_body;
-			} dld_rec_body;
-
-			// non-data "array trailer" elements: 2 bytes
-			char eol_byte; // in case disk record has a terminating EOL
-			char zero_byte; // for fgets() to place terminating 0
-
-		} data;
-
-	} dld_rec;
 };
 
 #endif /* DLDREC_H_ */
