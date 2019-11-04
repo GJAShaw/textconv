@@ -10,7 +10,7 @@
 
 #include <stddef.h>
 
-enum dldrec_sizeofs{DLDREC_LENGTH = 40};
+enum dldrec_sizeofs{DLDREC_LENGTH = 42};
 
 struct dldrec {
 
@@ -26,7 +26,7 @@ struct dldrec {
 				char filler_01;
 			} rec_header;
 
-			// record body: up to 32 bytes
+			// record body: up to 34 bytes
 			union {
 				struct { // 10 bytes
 					unsigned char yyyy[4];
@@ -35,14 +35,14 @@ struct dldrec {
 					unsigned char nn[2];
 				} header_rec_body;
 
-				struct { // 32 bytes
+				struct { // 34 bytes
 					unsigned char name[16];
-					unsigned char colour[15];
-					unsigned char age;
+					unsigned char colour[16];
+					unsigned char age[2];
 				} data_rec_body;
 
-				struct { // sizeof(size_t) bytes
-					size_t recs_count;
+				struct { // 8 bytes
+					unsigned char recs_count[8];
 				} trailer_rec_body;
 			} dld_rec_body;
 
