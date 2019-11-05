@@ -133,17 +133,14 @@ void print_trailer_record(struct dld_rec_def *record)
 
 void print_record_header(struct dld_record_header_def *header)
 {
-	size_t offset = 0; // running total of bytes read from record
-
 	puts("\t<record_header>");
 
 	printf("\t\t%s", "<num>");
-	fwrite((const void *)header, sizeof(header->num), ONE_ELEMENT, stdout);
+	fwrite((const void *)&(header->num), sizeof(header->num), ONE_ELEMENT, stdout);
 	printf("%s\n", "</num>");
-	offset += sizeof(header->num);
 
 	printf("\t\t%s", "<type>");
-	fwrite((const void *)header + offset, sizeof(header->typ), ONE_ELEMENT, stdout);
+	fwrite((const void *)&(header->typ), sizeof(header->typ), ONE_ELEMENT, stdout);
 	printf("%s\n", "</type>");
 
 	puts("\t</record_header>");
