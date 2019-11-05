@@ -30,10 +30,10 @@ struct dld_data_data_def {
 };
 
 struct dld_trailer_data_def {
-	unsigned char recs_count[8];
+	unsigned char recs_count[4];
 };
 
-struct dld_rec {
+struct dld_rec_def {
 
 	struct dld_record_header_def header;
 	union {
