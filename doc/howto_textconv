@@ -1,0 +1,16 @@
+
+# Git config
+Set this up for a single repository by editing your .git/config file, or globally by editing ~ /.gitconfig:
+
+[diff "dldconv"]
+textconv=dld2txt
+
+
+dld2txt must be an executable command; a pathname to an executable object or script plus any command-line options
+
+
+
+# Git attributes
+Edit .gitattributes like so:
+
+*.dld diff=dldconv
