@@ -12,6 +12,9 @@
 /* array size - need to do this better */
 enum sizes {ARRAY_SIZE = 100};
 
+/**/
+enum counts {ONE_ELEMENT = 1, INDENT_SPACES = 4};
+
 /* args_def */
 struct args_def {
 	char *in_file;
