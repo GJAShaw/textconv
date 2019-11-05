@@ -35,15 +35,81 @@ void print_record(char *record)
 void print_header_record(struct dld_rec_def *record)
 {
 	print_record_header(&(record->header));
-	printf(" ");
-	puts("header record");
+
+	puts("\t<header_body>");
+
+	printf("\t\t%s", "<yyyy>");
+	fwrite(
+			(const void *)&(record->data_u.header.yyyy),
+			sizeof(record->data_u.header.yyyy),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</yyyy>");
+
+	printf("\t\t%s", "<mm>");
+	fwrite(
+			(const void *)&(record->data_u.header.mm),
+			sizeof(record->data_u.header.mm),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</mm>");
+
+	printf("\t\t%s", "<dd>");
+	fwrite(
+			(const void *)&(record->data_u.header.dd),
+			sizeof(record->data_u.header.dd),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</dd>");
+
+	printf("\t\t%s", "<nn>");
+	fwrite(
+			(const void *)&(record->data_u.header.nn),
+			sizeof(record->data_u.header.nn),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</nn>");
+
+	puts("\t</header_body>");
+
 }
 
 void print_data_record(struct dld_rec_def *record)
 {
-	print_record_header(&(record->header));
-	printf(" ");
-	puts("data record");
+	puts("\t<data_body>");
+
+	printf("\t\t%s", "<name>");
+	fwrite(
+			(const void *)&(record->data_u.data.name),
+			sizeof(record->data_u.data.name),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</name>");
+
+	printf("\t\t%s", "<colour>");
+	fwrite(
+			(const void *)&(record->data_u.data.colour),
+			sizeof(record->data_u.data.colour),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</colour>");
+
+	printf("\t\t%s", "<age>");
+	fwrite(
+			(const void *)&(record->data_u.data.age),
+			sizeof(record->data_u.data.age),
+			ONE_ELEMENT,
+			stdout
+	);
+	printf("%s\n", "</age>");
+
+	puts("\t</data_body>");
 }
 
 void print_trailer_record(struct dld_rec_def *record)
@@ -63,12 +129,11 @@ void print_trailer_record(struct dld_rec_def *record)
 
 	puts("\t</trailer_body>");
 
-
 }
 
 void print_record_header(struct dld_record_header_def *header)
 {
-	size_t offset = 0; // running total of bytes read from header
+	size_t offset = 0; // running total of bytes read from record
 
 	puts("\t<record_header>");
 
