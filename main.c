@@ -34,7 +34,9 @@ int main(int argc, char **argv)
 			print_record(record_read);
 		} else {
 			finished = true;
-		} // TODO - make this stub into a proper record-processor
+			if (ferror(in_file))
+				EXIT_FAILURE;
+		}
 
 	}
 
