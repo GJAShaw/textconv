@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "textconv.defs.h"
 #include "dldrec.h"
@@ -37,9 +39,12 @@ void print_record(char *record)
 
 void print_header_record(struct dld_rec_def *record, size_t *indents)
 {
-	print_record_header(&(record->header));
+	print_record_header(&(record->header), indents);
 
-	puts("\t<header_body>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("<header_body>");
 
 	printf("\t\t%s", "<yyyy>");
 	fwrite(
@@ -77,13 +82,21 @@ void print_header_record(struct dld_rec_def *record, size_t *indents)
 	);
 	printf("%s\n", "</nn>");
 
-	puts("\t</header_body>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("</header_body>");
 
 }
 
 void print_data_record(struct dld_rec_def *record, size_t *indents)
 {
-	puts("\t<data_body>");
+	print_record_header(&(record->header), indents);
+
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("<data_body>");
 
 	printf("\t\t%s", "<name>");
 	fwrite(
@@ -112,32 +125,46 @@ void print_data_record(struct dld_rec_def *record, size_t *indents)
 	);
 	printf("%s\n", "</age>");
 
-	puts("\t</data_body>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("</data_body>");
+
 }
 
 void print_trailer_record(struct dld_rec_def *record, size_t *indents)
 {
-	print_record_header(&(record->header));
+	print_record_header(&(record->header), indents);
 
-	puts("\t<trailer_body>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("<trailer_body>");
 
-	printf("\t\t%s", "<recs_count>");
-	fwrite(
-			(const void *)&(record->data_u.trailer.recs_count),
-			sizeof(record->data_u.trailer.recs_count),
-			ONE_ELEMENT,
-			stdout
+	++(*indents);
+	print_xml_oneliner(
+		"recs_count",
+		(void*)&(record->data_u.trailer.recs_count),
+		sizeof(record->data_u.trailer.recs_count),
+		indents
 	);
-	printf("%s\n", "</recs_count>");
+	--(*indents);
 
-	puts("\t</trailer_body>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("</trailer_body>");
 
 }
 
-void print_record_header(struct dld_record_header_def *header)
+void print_record_header(struct dld_record_header_def *header, size_t *indents)
 {
-	puts("\t<record_header>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("<record_header>");
 
+	// TODO rewrite using print_xml... function
 	printf("\t\t%s", "<num>");
 	fwrite((const void *)&(header->num), sizeof(header->num), ONE_ELEMENT, stdout);
 	printf("%s\n", "</num>");
@@ -146,11 +173,51 @@ void print_record_header(struct dld_record_header_def *header)
 	fwrite((const void *)&(header->typ), sizeof(header->typ), ONE_ELEMENT, stdout);
 	printf("%s\n", "</type>");
 
-	puts("\t</record_header>");
+	for (int i = 0; i < *indents; ++i)
+		for (int j = 0; j < FOUR_COLUMNS; ++j)
+			printf(" ");
+	puts("</record_header>");
 
 }
 
-void print_xml_oneliner(char *tag_name, void* content, size_t *indents)
+void print_xml_oneliner(char *tag_name, void* content, size_t content_length, size_t *indents)
 {
+	size_t l = 0; // text length, including indentation spaces
+	char tag_delimiters[] = "<></>"; // to help clarify calculation of l
+	char *text = NULL;
+	char *ptr = NULL;
+
+	l = (*indents * FOUR_COLUMNS) + strlen(tag_delimiters) + (2 * strlen(tag_name)) + content_length;
+	text = malloc(l);
+	if (text == NULL) {
+		perror("print_xml_oneliner malloc() failure");
+		exit(EXIT_FAILURE);
+	}
+
+	ptr = text;
+	for (int i = 0; i < *indents; ++i) {
+		memcpy((void *)ptr, (void *)"    ", FOUR_COLUMNS);
+		ptr = ptr + FOUR_COLUMNS;
+	}
+	memcpy((void *)ptr, (void *)"<", 1);
+	ptr += 1;
+	memcpy((void *)ptr, (void *)tag_name, strlen(tag_name));
+	ptr += strlen(tag_name);
+	memcpy((void *)ptr, (void *)">", 1);
+	ptr += 1;
+	memcpy((void *)ptr, (void *)content, content_length);
+	ptr += content_length;
+	memcpy((void *)ptr, (void *)"</", 2);
+	ptr += 2;
+	memcpy((void *)ptr, (void *)tag_name, strlen(tag_name));
+	ptr += strlen(tag_name);
+	memcpy((void *)ptr, (void *)">", 1);
+
+	fwrite((const void *)text, l, ONE_ELEMENT, stdout);
+	puts("");
+
+	free(text);
+
+	return;
 
 }
