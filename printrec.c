@@ -19,6 +19,7 @@ void print_record(char *record)
 	size_t indents = 0;
 	struct dld_rec_def *dld = (struct dld_rec_def *)record;
 
+	puts("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 	puts("<dld_rec>");
 	++indents;
 
