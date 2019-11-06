@@ -46,41 +46,22 @@ void print_header_record(struct dld_rec_def *record, size_t *indents)
 			printf(" ");
 	puts("<header_body>");
 
-	printf("\t\t%s", "<yyyy>");
-	fwrite(
-			(const void *)&(record->data_u.header.yyyy),
-			sizeof(record->data_u.header.yyyy),
-			ONE_ELEMENT,
-			stdout
-	);
-	printf("%s\n", "</yyyy>");
+	++(*indents);
 
-	printf("\t\t%s", "<mm>");
-	fwrite(
-			(const void *)&(record->data_u.header.mm),
-			sizeof(record->data_u.header.mm),
-			ONE_ELEMENT,
-			stdout
+	print_xml_oneliner(
+		"yyyy", record->data_u.header.yyyy, sizeof(record->data_u.header.yyyy), indents
 	);
-	printf("%s\n", "</mm>");
+	print_xml_oneliner(
+		"mm", record->data_u.header.mm, sizeof(record->data_u.header.mm), indents
+	);
+	print_xml_oneliner(
+		"dd", record->data_u.header.dd, sizeof(record->data_u.header.dd), indents
+	);
+	print_xml_oneliner(
+		"nn", record->data_u.header.nn, sizeof(record->data_u.header.nn), indents
+	);
 
-	printf("\t\t%s", "<dd>");
-	fwrite(
-			(const void *)&(record->data_u.header.dd),
-			sizeof(record->data_u.header.dd),
-			ONE_ELEMENT,
-			stdout
-	);
-	printf("%s\n", "</dd>");
-
-	printf("\t\t%s", "<nn>");
-	fwrite(
-			(const void *)&(record->data_u.header.nn),
-			sizeof(record->data_u.header.nn),
-			ONE_ELEMENT,
-			stdout
-	);
-	printf("%s\n", "</nn>");
+	--(*indents);
 
 	for (int i = 0; i < *indents; ++i)
 		for (int j = 0; j < FOUR_COLUMNS; ++j)
@@ -98,32 +79,19 @@ void print_data_record(struct dld_rec_def *record, size_t *indents)
 			printf(" ");
 	puts("<data_body>");
 
-	printf("\t\t%s", "<name>");
-	fwrite(
-			(const void *)&(record->data_u.data.name),
-			sizeof(record->data_u.data.name),
-			ONE_ELEMENT,
-			stdout
-	);
-	printf("%s\n", "</name>");
+	++(*indents);
 
-	printf("\t\t%s", "<colour>");
-	fwrite(
-			(const void *)&(record->data_u.data.colour),
-			sizeof(record->data_u.data.colour),
-			ONE_ELEMENT,
-			stdout
+	print_xml_oneliner(
+		"name", record->data_u.data.name, sizeof(record->data_u.data.name), indents
 	);
-	printf("%s\n", "</colour>");
+	print_xml_oneliner(
+		"colour", record->data_u.data.colour, sizeof(record->data_u.data.colour), indents
+	);
+	print_xml_oneliner(
+		"age", record->data_u.data.age, sizeof(record->data_u.data.age), indents
+	);
 
-	printf("\t\t%s", "<age>");
-	fwrite(
-			(const void *)&(record->data_u.data.age),
-			sizeof(record->data_u.data.age),
-			ONE_ELEMENT,
-			stdout
-	);
-	printf("%s\n", "</age>");
+	--(*indents);
 
 	for (int i = 0; i < *indents; ++i)
 		for (int j = 0; j < FOUR_COLUMNS; ++j)
@@ -142,12 +110,14 @@ void print_trailer_record(struct dld_rec_def *record, size_t *indents)
 	puts("<trailer_body>");
 
 	++(*indents);
+
 	print_xml_oneliner(
 		"recs_count",
-		(void*)&(record->data_u.trailer.recs_count),
+		record->data_u.trailer.recs_count,
 		sizeof(record->data_u.trailer.recs_count),
 		indents
 	);
+
 	--(*indents);
 
 	for (int i = 0; i < *indents; ++i)
@@ -164,14 +134,12 @@ void print_record_header(struct dld_record_header_def *header, size_t *indents)
 			printf(" ");
 	puts("<record_header>");
 
-	// TODO rewrite using print_xml... function
-	printf("\t\t%s", "<num>");
-	fwrite((const void *)&(header->num), sizeof(header->num), ONE_ELEMENT, stdout);
-	printf("%s\n", "</num>");
+	++(*indents);
 
-	printf("\t\t%s", "<type>");
-	fwrite((const void *)&(header->typ), sizeof(header->typ), ONE_ELEMENT, stdout);
-	printf("%s\n", "</type>");
+	print_xml_oneliner("num", header->num, sizeof(header->num), indents);
+	print_xml_oneliner("typ", &(header->typ), sizeof(header->typ), indents);
+
+	--(*indents);
 
 	for (int i = 0; i < *indents; ++i)
 		for (int j = 0; j < FOUR_COLUMNS; ++j)
@@ -180,7 +148,7 @@ void print_record_header(struct dld_record_header_def *header, size_t *indents)
 
 }
 
-void print_xml_oneliner(char *tag_name, void* content, size_t content_length, size_t *indents)
+void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_length, size_t *indents)
 {
 	size_t l = 0; // text length, including indentation spaces
 	char tag_delimiters[] = "<></>"; // to help clarify calculation of l
