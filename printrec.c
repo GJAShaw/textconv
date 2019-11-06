@@ -41,9 +41,7 @@ void print_header_record(struct dld_rec_def *record, size_t *indents)
 {
 	print_record_header(&(record->header), indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("<header_body>");
 
 	++(*indents);
@@ -63,9 +61,7 @@ void print_header_record(struct dld_rec_def *record, size_t *indents)
 
 	--(*indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("</header_body>");
 
 }
@@ -74,9 +70,7 @@ void print_data_record(struct dld_rec_def *record, size_t *indents)
 {
 	print_record_header(&(record->header), indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("<data_body>");
 
 	++(*indents);
@@ -93,9 +87,7 @@ void print_data_record(struct dld_rec_def *record, size_t *indents)
 
 	--(*indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("</data_body>");
 
 }
@@ -104,9 +96,7 @@ void print_trailer_record(struct dld_rec_def *record, size_t *indents)
 {
 	print_record_header(&(record->header), indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("<trailer_body>");
 
 	++(*indents);
@@ -120,18 +110,14 @@ void print_trailer_record(struct dld_rec_def *record, size_t *indents)
 
 	--(*indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("</trailer_body>");
 
 }
 
 void print_record_header(struct dld_record_header_def *header, size_t *indents)
 {
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("<record_header>");
 
 	++(*indents);
@@ -141,21 +127,19 @@ void print_record_header(struct dld_record_header_def *header, size_t *indents)
 
 	--(*indents);
 
-	for (int i = 0; i < *indents; ++i)
-		for (int j = 0; j < FOUR_COLUMNS; ++j)
-			printf(" ");
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	puts("</record_header>");
 
 }
 
 void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_length, size_t *indents)
 {
-	size_t l = 0; // text length, including indentation spaces
+	size_t l = 0; // text length
 	char tag_delimiters[] = "<></>"; // to help clarify calculation of l
 	char *text = NULL;
 	char *ptr = NULL;
 
-	l = (*indents * FOUR_COLUMNS) + strlen(tag_delimiters) + (2 * strlen(tag_name)) + content_length;
+	l = strlen(tag_delimiters) + (2 * strlen(tag_name)) + content_length;
 	text = malloc(l);
 	if (text == NULL) {
 		perror("print_xml_oneliner malloc() failure");
@@ -163,10 +147,6 @@ void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_l
 	}
 
 	ptr = text;
-	for (int i = 0; i < *indents; ++i) {
-		memcpy((void *)ptr, (void *)"    ", FOUR_COLUMNS);
-		ptr = ptr + FOUR_COLUMNS;
-	}
 	memcpy((void *)ptr, (void *)"<", 1);
 	ptr += 1;
 	memcpy((void *)ptr, (void *)tag_name, strlen(tag_name));
@@ -181,11 +161,20 @@ void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_l
 	ptr += strlen(tag_name);
 	memcpy((void *)ptr, (void *)">", 1);
 
+	print_indentation_spaces(*indents, FOUR_COLUMNS);
 	fwrite((const void *)text, l, ONE_ELEMENT, stdout);
 	puts("");
 
 	free(text);
 
 	return;
+
+}
+
+inline void print_indentation_spaces(size_t number_of_indents, size_t chars_per_indent)
+{
+	for (size_t i = 0; i < number_of_indents; ++i)
+		for (size_t j = 0; j < chars_per_indent; ++j)
+			putc(' ', stdout);
 
 }
