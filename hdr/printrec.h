@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef PRINTREC_H_
-#define PRINTREC_H_
+#ifndef HDR_PRINTREC_H_
+#define HDR_PRINTREC_H_
 
 #include "dldrec.h"
 
@@ -20,4 +20,4 @@ void print_record_header(struct dld_record_header_def *header, size_t *indents);
 void print_trailer_record(struct dld_rec_def *record, size_t *indents);
 void print_xml_oneliner(char *tag_name, unsigned char *content, size_t content_length, size_t *indents);
 
-#endif /* PRINTREC_H_ */
+#endif /* HDR_PRINTREC_H_ */

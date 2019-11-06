@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "textconv.defs.h"
-#include "dldrec.h"
-#include "getargs.h"
-#include "printrec.h"
+#include "hdr/dldrec.h"
+#include "hdr/getargs.h"
+#include "hdr/printrec.h"
+#include "hdr/textconv.defs.h"
 
 int main(int argc, char **argv)
 {

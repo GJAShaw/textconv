@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef DLDREC_H_
-#define DLDREC_H_
+#ifndef HDR_DLDREC_H_
+#define HDR_DLDREC_H_
 
 #include <stddef.h>
 
@@ -44,4 +44,4 @@ struct dld_rec_def {
 
 };
 
-#endif /* DLDREC_H_ */
+#endif /* HDR_DLDREC_H_ */

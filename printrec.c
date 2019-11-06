@@ -5,13 +5,14 @@
  *      Author: greg
  */
 
+#include "hdr/printrec.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "textconv.defs.h"
-#include "dldrec.h"
-#include "printrec.h"
+#include "hdr/dldrec.h"
+#include "hdr/textconv.defs.h"
 
 void print_record(char *record)
 {

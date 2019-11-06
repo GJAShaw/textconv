@@ -5,12 +5,12 @@
  *      Author: greg
  */
 
-#ifndef GETARGS_H_
-#define GETARGS_H_
+#ifndef HDR_GETARGS_H_
+#define HDR_GETARGS_H_
 
-#include "textconv.defs.h"
+#include "hdr/textconv.defs.h"
 
 void get_arguments(int argc, char **argv, struct args_def *args);
 
 
-#endif /* GETARGS_H_ */
+#endif /* HDR_GETARGS_H_ */

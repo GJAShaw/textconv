@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 
+#include "hdr/textconv.defs.h"
 #include "hdr/usage.h"
-#include "textconv.defs.h"
 
 void get_arguments(int argc, char **argv, struct args_def *args)
 {

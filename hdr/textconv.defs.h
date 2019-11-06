@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef TEXTCONV_DEFS_H_
-#define TEXTCONV_DEFS_H_
+#ifndef HDR_TEXTCONV_DEFS_H_
+#define HDR_TEXTCONV_DEFS_H_
 
 
 /* array size - need to do this better */
@@ -20,4 +20,4 @@ struct args_def {
 	char *in_file;
 };
 
-#endif /* TEXTCONV_DEFS_H_ */
+#endif /* HDR_TEXTCONV_DEFS_H_ */
