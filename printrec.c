@@ -20,11 +20,11 @@ void print_record(char *record)
 	++indents;
 
 	if (dld->header.typ == 'H') {
-		print_header_record(dld, indents);
+		print_header_record(dld, &indents);
 	} else if (dld->header.typ == 'D') {
-		print_data_record(dld, indents);
+		print_data_record(dld, &indents);
 	} else if (dld->header.typ == 'T') {
-		print_trailer_record(dld, indents);
+		print_trailer_record(dld, &indents);
 	} else {
 		puts("unknown record type");
 	}
