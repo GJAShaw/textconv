@@ -5,9 +5,9 @@
  *      Author: greg
  */
 
-#ifndef USAGE_H_
-#define USAGE_H_
+#ifndef HDR_USAGE_H_
+#define HDR_USAGE_H_
 
 void print_usage(char *path);
 
-#endif /* USAGE_H_ */
+#endif /* HDR_USAGE_H_ */
