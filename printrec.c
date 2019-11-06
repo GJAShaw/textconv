@@ -13,26 +13,29 @@
 
 void print_record(char *record)
 {
+	size_t indents = 0;
 	struct dld_rec_def *dld = (struct dld_rec_def *)record;
 
 	puts("<dld_rec>");
+	++indents;
 
 	if (dld->header.typ == 'H') {
-		print_header_record(dld);
+		print_header_record(dld, indents);
 	} else if (dld->header.typ == 'D') {
-		print_data_record(dld);
+		print_data_record(dld, indents);
 	} else if (dld->header.typ == 'T') {
-		print_trailer_record(dld);
+		print_trailer_record(dld, indents);
 	} else {
 		puts("unknown record type");
 	}
 
+	--indents;
 	puts("</dld_rec>");
 
 	return;
 }
 
-void print_header_record(struct dld_rec_def *record)
+void print_header_record(struct dld_rec_def *record, size_t *indents)
 {
 	print_record_header(&(record->header));
 
@@ -78,7 +81,7 @@ void print_header_record(struct dld_rec_def *record)
 
 }
 
-void print_data_record(struct dld_rec_def *record)
+void print_data_record(struct dld_rec_def *record, size_t *indents)
 {
 	puts("\t<data_body>");
 
@@ -112,7 +115,7 @@ void print_data_record(struct dld_rec_def *record)
 	puts("\t</data_body>");
 }
 
-void print_trailer_record(struct dld_rec_def *record)
+void print_trailer_record(struct dld_rec_def *record, size_t *indents)
 {
 	print_record_header(&(record->header));
 
@@ -144,5 +147,10 @@ void print_record_header(struct dld_record_header_def *header)
 	printf("%s\n", "</type>");
 
 	puts("\t</record_header>");
+
+}
+
+void print_xml_oneliner(char *tag_name, void* content, size_t *indents)
+{
 
 }
