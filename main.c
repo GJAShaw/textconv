@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 		} else {
 			finished = true;
 			if (ferror(in_file))
-				EXIT_FAILURE;
+				exit(EXIT_FAILURE);
 		}
 
 	}
