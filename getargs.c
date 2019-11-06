@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-#include "hdr/textconv.defs.h"
+#include "hdr/textconv_defs.h"
 #include "hdr/usage.h"
 
 void get_arguments(int argc, char **argv, struct args_def *args)

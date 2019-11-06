@@ -12,7 +12,7 @@
 #include "hdr/dldrec.h"
 #include "hdr/getargs.h"
 #include "hdr/printrec.h"
-#include "hdr/textconv.defs.h"
+#include "hdr/textconv_defs.h"
 
 int main(int argc, char **argv)
 {

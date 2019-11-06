@@ -8,7 +8,7 @@
 #ifndef HDR_GETARGS_H_
 #define HDR_GETARGS_H_
 
-#include "hdr/textconv.defs.h"
+#include "textconv_defs.h"
 
 void get_arguments(int argc, char **argv, struct args_def *args);
 

@@ -12,7 +12,7 @@
 #include <string.h>
 
 #include "hdr/dldrec.h"
-#include "hdr/textconv.defs.h"
+#include "hdr/textconv_defs.h"
 
 void print_record(char *record)
 {
