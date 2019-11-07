@@ -5,21 +5,26 @@
  *      Author: greg
  */
 
-#include "hdr/printrec.h"
-
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "hdr/dldrec.h"
+#include "hdr/printrec.h"
 #include "hdr/textconv_defs.h"
 
 void print_record(char *record)
 {
 	size_t indents = 0;
 	struct dld_rec_def *dld = (struct dld_rec_def *)record;
+	static bool xml_declaration_written = false;
 
-	puts("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	if (!xml_declaration_written){
+		puts("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		xml_declaration_written = true;
+	}
+
 	puts("<dld_rec>");
 	++indents;
 
@@ -168,6 +173,8 @@ void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_l
 	puts("");
 
 	free(text);
+	ptr = NULL;
+	text = NULL;
 
 	return;
 
