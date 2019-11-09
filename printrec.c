@@ -182,8 +182,8 @@ void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_l
 
 inline void print_indentation_spaces(size_t number_of_indents, size_t chars_per_indent)
 {
-	for (size_t i = 0; i < number_of_indents; ++i)
-		for (size_t j = 0; j < chars_per_indent; ++j)
-			putc(' ', stdout);
+	size_t n = number_of_indents * chars_per_indent;
+	for (size_t i = 0; i < n; ++i)
+		putc(' ', stdout);
 
 }
