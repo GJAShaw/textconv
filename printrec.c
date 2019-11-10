@@ -173,8 +173,7 @@ void print_xml_oneliner(char *tag_name, unsigned char* content, size_t content_l
 	puts("");
 
 	free(text);
-	ptr = NULL;
-	text = NULL;
+	// It's safe not to make ptr and text NULL, as they're about to disappear
 
 	return;
 
